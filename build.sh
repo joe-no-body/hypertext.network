@@ -7,7 +7,9 @@ for page in pages/**/*.md; do
   pageout="site/${page##pages/}"
   # change extension
   pageout="${pageout%%.md}.html"
+
   pagedir="$(dirname "$pageout")"
+
   echo "$page -> $pageout (dir: $pagedir)"
 
   mkdir -p "$pagedir"
