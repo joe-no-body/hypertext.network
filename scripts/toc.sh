@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n'
+
+source scripts/pages.sh
 
 : "${BASE_PATH:=}"
 
-for page in $(./scripts/list-pages.sh); do
-  echo "[$page]($BASE_PATH/$page)"
+for page in "${pages[@]}"; do
+  page_name="${page##pages/}"
+  page_name="${page_name%%.md}"
+  echo "[$page_name]($BASE_PATH/$page_name.html)"
 done

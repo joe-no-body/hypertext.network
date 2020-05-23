@@ -2,7 +2,10 @@
 set -euo pipefail
 shopt -s globstar
 
-for page in pages/**/*.md; do
+source scripts/pages.sh
+
+# generate HTML from markdown
+for page in "${pages[@]}"; do
   # change directory
   pageout="site/${page##pages/}"
   # change extension
