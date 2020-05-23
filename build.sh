@@ -23,11 +23,15 @@ generate_page() {
 generate_nonindex_page() {
   generate_page "$@" \
     --title-prefix="hypertext.network" \
-    --include-before-body "_build/header.html"
+    --include-before-body "_build/header.html" \
+    --include-after-body "_build/footer.html"
 }
 
 echo "Generating header"
 generate_fragment _build/header.html components/header.md
+
+echo "Generating footer"
+generate_fragment _build/footer.html components/footer.md
 
 echo "Generating HTML from markdown"
 for page in "${pages[@]}"; do
@@ -54,7 +58,8 @@ echo "Inserting into index"
 bash scripts/inject_toc.sh
 
 echo "Generating index"
-generate_page docs/index.html _build/index.md
+generate_page docs/index.html _build/index.md \
+  --include-after-body "_build/footer.html"
 
 echo "Loading css"
 cp pandoc.css docs/pandoc.css

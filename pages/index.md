@@ -1,7 +1,7 @@
 % hypertext.network
 
-This is not a blog. You will get no tidy chronologies here. My thoughts are
-neither linear nor ordered. They are a sprawling web, just like this site.
+This is not a blog. There are no tidy chronologies here. The thoughts here are
+neither linear nor ordered. Only hypertext can suffice.
 
 ## table of contents
 
