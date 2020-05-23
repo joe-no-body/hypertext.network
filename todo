@@ -1,7 +1,8 @@
-- save CNAME when remaking docs/
 - table of contents per directory
 - tags/topics/categories or something
 - list backlinks ("what links here") on each page
 - top level site statistics - word count and whatnot
 - factor out site generation code to a separate project so I'm not tracking both
   content and content generation in one place
+- add a utility to watch for changes and auto-rebuild on change for local
+  editing
