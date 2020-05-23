@@ -5,19 +5,19 @@ shopt -s globstar
 source scripts/pages.sh
 
 generate_fragment() {
-  pandoc -o "$1" "$2"
+  local out="$1"
+  local in="$2"
+  shift 2
+  pandoc --lua-filter=rewrite-urls.lua "$@" -o "$out" "$in"
 }
 
 generate_page() {
   local out="$1"
   local in="$2"
   shift 2
-  pandoc -s \
+  generate_fragment "$out" "$in" "$@" -s \
     --css /pandoc.css \
-    --template template.html \
-    "$@" \
-    -o "$out" \
-    "$in"
+    --template template.html
 }
 
 generate_nonindex_page() {
