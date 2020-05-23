@@ -8,6 +8,12 @@ h1, h2, h3 {
     font-family: 'Play', sans-serif;
 }
 
+code {
+    /* font-family: 'Inconsolata', monospace; */
+    font-family: 'Cousine', monospace;
+    /* font-size: 1.2em; */
+}
+
 @media (max-width: 780px) {
     body {
         font-size: 1.2rem;
