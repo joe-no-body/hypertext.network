@@ -4,7 +4,30 @@ shopt -s globstar
 
 source scripts/pages.sh
 
-# generate HTML from markdown
+generate_fragment() {
+  pandoc -o "$1" "$2"
+}
+
+generate_page() {
+  local out="$1"
+  local in="$2"
+  shift 2
+  pandoc -s \
+    --css /pandoc.css \
+    --template template.html \
+    "$@" \
+    -o "$out" \
+    "$in"
+}
+
+generate_nonindex_page() {
+  generate_page "$@" --include-before-body "_build/header.html"
+}
+
+echo "Generating header"
+generate_fragment _build/header.html components/header.md
+
+echo "Generating HTML from markdown"
 for page in "${pages[@]}"; do
   if [[ "$page" == pages/index.md ]]; then
     continue
@@ -19,7 +42,7 @@ for page in "${pages[@]}"; do
   echo "$page -> $pageout (dir: $pagedir)"
 
   mkdir -p "$pagedir"
-  pandoc -s -o "$pageout" "$page"
+  generate_nonindex_page "$pageout" "$page"
 done
 
 # generate index page with TOC
@@ -29,4 +52,7 @@ echo "Inserting into index"
 bash scripts/inject_toc.sh
 
 echo "Generating index"
-pandoc -s -o site/index.html _build/index.md
+generate_page site/index.html _build/index.md
+
+echo "Loading css"
+cp pandoc.css site/pandoc.css
