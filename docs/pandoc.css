@@ -1,3 +1,13 @@
 body {
     margin: 10em;
+    font-size: 1.5rem;
+}
+
+hr {
+    border-top: 1px dashed #8c8b8b;
+    border-bottom: 1px dashed #fff;
+}
+
+footer {
+    font-size: 1.0rem;
 }
