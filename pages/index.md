@@ -1,5 +1,5 @@
-# welcome to the web
+% hypertext.network
 
 ## table of contents
 
-TOC
+~~~TOC~~~
