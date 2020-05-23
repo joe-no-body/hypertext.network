@@ -21,7 +21,9 @@ generate_page() {
 }
 
 generate_nonindex_page() {
-  generate_page "$@" --include-before-body "_build/header.html"
+  generate_page "$@" \
+    --title-prefix="hypertext.network" \
+    --include-before-body "_build/header.html"
 }
 
 echo "Generating header"
