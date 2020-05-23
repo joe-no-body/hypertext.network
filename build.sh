@@ -8,6 +8,18 @@ readonly -a pages=(
 
 : "${BASE_PATH:=}"
 
+if [[ -t 2 ]]; then
+  readonly blue="$(tput setaf 14)"
+  readonly reset="$(tput sgr0)"
+else
+  readonly blue=
+  readonly reset=
+fi
+
+info() {
+  echo "${blue}*** $*${reset}" >&2
+}
+
 generate_fragment() {
   local out="$1"
   local in="$2"
@@ -32,54 +44,70 @@ generate_nonindex_page() {
     --include-after-body "_build/footer.html"
 }
 
-mkdir -p _build
+# get the bare name of a page without the base path and extension
+get_page_name() {
+  : "${1##pages/}"
+  echo "${_%%.md}"
+}
 
-echo "Generating header"
-generate_fragment _build/header.html components/header.md
+build_site() {
+  for page in "${pages[@]}"; do
+    if [[ "$page" == pages/index.md ]]; then
+      continue
+    fi
+    pageout="docs/$(get_page_name "$page").html"
+    pagedir="$(dirname "$pageout")"
+    info "$page -> $pageout (dir: $pagedir)"
+    # need to ensure the output directory exists or pandoc will fail
+    mkdir -p "$pagedir"
+    generate_nonindex_page "$pageout" "$page"
+  done
+}
 
-echo "Generating footer"
-generate_fragment _build/footer.html components/footer.md
-
-echo "Generating HTML from markdown"
-for page in "${pages[@]}"; do
-  if [[ "$page" == pages/index.md ]]; then
-    continue
-  fi
-  # change directory
-  pageout="docs/${page##pages/}"
-  # change extension
-  pageout="${pageout%%.md}.html"
-
-  pagedir="$(dirname "$pageout")"
-
-  echo "$page -> $pageout (dir: $pagedir)"
-
-  mkdir -p "$pagedir"
-  generate_nonindex_page "$pageout" "$page"
-done
+generate_toc() {
+  for page in "${pages[@]}"; do
+    if [[ "$page" == pages/index.md ]]; then
+      continue
+    fi
+    page_name="$(get_page_name "$page")"
+    echo "[$page_name]($BASE_PATH/$page_name.html)"
+    echo
+  done
+}
 
 # generate index page with TOC
-echo "Generating table of contents"
+generate_index() {
+  info "Generating table of contents for index"
+  generate_toc > _build/toc.md
 
-for page in "${pages[@]}"; do
-  if [[ "$page" == pages/index.md ]]; then
-    continue
-  fi
-  page_name="${page##pages/}"
-  page_name="${page_name%%.md}"
-  echo "[$page_name]($BASE_PATH/$page_name.html)"
-  echo
-done > _build/toc.md
+  info "Inserting TOC into index"
+  sed '/~~~TOC~~~/{
+    s/~~~TOC~~~//g
+    r _build/toc.md
+  }' pages/index.md > _build/index.md
 
-echo "Inserting into index"
-sed '/~~~TOC~~~/{
-  s/~~~TOC~~~//g
-  r _build/toc.md
-}' pages/index.md > _build/index.md
+  info "Generating index"
+  generate_page docs/index.html _build/index.md \
+    --include-after-body "_build/footer.html"
+}
 
-echo "Generating index"
-generate_page docs/index.html _build/index.md \
-  --include-after-body "_build/footer.html"
+main() {
+  mkdir -p _build
 
-echo "Loading css"
-cp pandoc.css docs/pandoc.css
+  info "Generating header"
+  generate_fragment _build/header.html components/header.md
+
+  info "Generating footer"
+  generate_fragment _build/footer.html components/footer.md
+
+  info "Generating HTML from markdown"
+  build_site
+
+  generate_index
+
+  info "Loading css"
+  cp pandoc.css docs/pandoc.css
+}
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi
