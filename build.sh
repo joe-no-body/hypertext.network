@@ -105,8 +105,8 @@ main() {
 
   generate_index
 
-  info "Loading css"
-  cp pandoc.css docs/pandoc.css
+  info "Loading static files"
+  cp static/* docs/
 }
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   main "$@"
