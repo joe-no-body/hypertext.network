@@ -1,4 +1,4 @@
-I've described gender as an obligation, but I haven't really captured how it feels.
+I've described gender as an [obligation](./obligation.md), but I haven't really captured how it feels.
 
 When I imagine gender in my head, I see it first as a lens. I picture my observing self as a small, confined entity, almost like the sensor in a camera body, and from this perspective, gender is a lens that completely controls the observing mind's view. Every thought, every action, the way I look, the way I feel -- all of it refracts through this lens, and it feels wrong. Distorted, manipulated, focusing on the wrong things and obscuring the right things. I can see the things I want, but they seem so far away and unreachable, so impossible they may as well be a tree on a mountain hundreds of miles away. In this view, no matter how far I walk, I can never get there. Or they seem repulsive, undesirable, something I shouldn't want. Both unattainable and undesirable.
 
