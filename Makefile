@@ -9,3 +9,7 @@ clean:
 .PHONY: serve
 serve:
 	cd docs && python3 -m http.server
+
+.PHONY: readme
+readme:
+	bash readme.sh
