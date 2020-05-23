@@ -21,6 +21,7 @@ generate_page() {
   shift 2
   generate_fragment "$out" "$in" "$@" -s \
     --css /pandoc.css \
+    --include-in-header=components/header-includes.html \
     --template template.html
 }
 
