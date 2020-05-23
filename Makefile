@@ -4,8 +4,8 @@ build:
 
 .PHONY: clean
 clean:
-	rm -rf _build site
+	rm -rf _build docs
 
 .PHONY: serve
 serve:
-	cd site && python3 -m http.server
+	cd docs && python3 -m http.server

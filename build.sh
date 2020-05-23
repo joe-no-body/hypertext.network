@@ -35,7 +35,7 @@ for page in "${pages[@]}"; do
     continue
   fi
   # change directory
-  pageout="site/${page##pages/}"
+  pageout="docs/${page##pages/}"
   # change extension
   pageout="${pageout%%.md}.html"
 
@@ -54,7 +54,7 @@ echo "Inserting into index"
 bash scripts/inject_toc.sh
 
 echo "Generating index"
-generate_page site/index.html _build/index.md
+generate_page docs/index.html _build/index.md
 
 echo "Loading css"
-cp pandoc.css site/pandoc.css
+cp pandoc.css docs/pandoc.css
